@@ -1,0 +1,32 @@
+"Watch the Screencast":http://www.youtube.com/v/GVgAb3T3Y0s
+
+h1. What is ZCML?
+
+ZCML is HTML with a Zoho Creator twist. ZCML let's you write HTML on your website or web application very much the same way you do in a Zoho Creator HTML View. You get the benefits of the *same embedded variable syntax without the need to use the ZC REST API.* This is not iframing. ZCML is HTML native to the website or web application it's being rendered on. Please watch the video.
+
+h1. Why use it?
+
+h3. It's Fast!
+
+Zoho Creator HTML Views can be very slow to render depending on the number of statements executed, can be almost unusable sometimes depending on the number of records you want to show, and the are subject to statement limits.
+
+ZCML is rendered using client side javascript NOT Zoho's Server. Zoho Creator can spit out a JSON format VERY quickly and javascript is very fast at rendering the JSON into HTML (your ZCML).
+
+Tip! Have a slow ZC HTML View you want to speed up? Write a ZCML view outside of Zoho Creator and embed it back into Zoho Creator. 
+
+Because your ZCML is not embedded or iframed into your website/web/mobile app, your ZCML can take advantage of the CSS and 	
+javascript already on your page. *Can  you imagine the sort of views you can create with ZCML and jQuery!*
+
+h1. What else should I know? 
+
+h3. ZCML is NOT Deluge Script
+
+Inside ZCML script tags, you are using javascript. So in the sample pages when I use an if/else block that's javascript
+NOT deluge script. ZC functions from your applications aren't available.
+
+h3. A note about PrivateLinks
+
+If you are going to use a privateLink to share your records with the world. Make sure you are limiting your views records to just 	
+the ones you want your viewers to see. *Using the "param" attribute in your ZCML script tag to limit the viewing of sensitive 		
+records DOESN'T CUT IT!* Any savvy data sniffer can take a look at your source code and just remove the params. If need be, 
+duplicate your view in Zoho Creator, then change the criteria on your view in Zoho Creator to limit the records.
