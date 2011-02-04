@@ -1,0 +1,61 @@
+<div style="margin-bottom:20px;width:480px;margin:0px auto">
+<object style="-webkit-box-shadow:0px 2px 2px rgba(0,0,0,.3);-moz-box-shadow:0px 2px 2px rgba(0,0,0,.3)" width="480" height="385"><param name="movie" value="http://www.youtube.com/v/GVgAb3T3Y0s&amp;hl=en_US&amp;fs=1"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><embed src="http://www.youtube.com/v/GVgAb3T3Y0s&amp;hl=en_US&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></object>
+</div>
+<hr style="margin-top:20px;border:none;height:2px;background:#000;-webkit-box-shadow:0px 2px 2px rgba(0,0,0,.3);-moz-box-shadow:0px 2px 2px rgba(0,0,0,.3)"/>
+<div style="padding:10px; color:#333">
+<h2 style="font-family: Georgia, 'Century Schoolbook', 'Times New Roman', Times, serif;">What is ZCML?</h2>
+<p>
+	ZCML is HTML with a Zoho Creator twist. ZCML let's you write HTML on your website or web application very much the same way you do in a Zoho Creator HTML View. You get the benefits of the <b>same embedded variable syntax without the need to use the ZC REST API.</b> This is not iframing. ZCML is HTML native to the website or web application it's being rendered on. Please watch the video.
+</p>
+<h2 style="font-family: Georgia, 'Century Schoolbook', 'Times New Roman', Times, serif;">Why use it?</h2>
+<ol>
+	<li>
+		<h3>It's Fast</h3>
+		<p>Zoho Creator HTML Views can be very slow to render depending on the number of statements executed, can be almost unusable sometimes depending on the number of records you want to show, and the are subject to statement limits.
+		</p>
+		<p>ZCML is rendered using client side javascript NOT Zoho's Server. Zoho Creator can spit out a JSON format VERY quickly and javascript is very fast at rendering the JSON into HTML (your ZCML).
+		</p>
+		<p>
+			Tip! Have a slow ZC HTML View you want to speed up? Write a ZCML view outside of Zoho Creator and embed it back into Zoho 	
+			Creator.
+		</p>
+	</li>
+	<li>
+		<h3>Native HTML means native CSS &amp; Javascript</h3>
+		<p>
+			Because your ZCML is not embedded or iframed into your website/web/mobile app, your ZCML can take advantage of the CSS and 	
+			javascript already on your page. <b>Can  you imagine the sort of views you can create with ZCML and jQuery!</b>
+		</p>
+	</li>
+</ol>
+<h2 style="font-family: Georgia, 'Century Schoolbook', 'Times New Roman', Times, serif;">What else should I know?</h2>
+<ol>
+	<li>
+		<h3>ZCML is NOT Deluge Script</h3>
+		<p>
+			Inside ZCML script tags, you are using javascript. So in the sample pages when I use an if/else block that's javascript
+			NOT deluge script. ZC functions from your applications aren't available.
+		</p>
+	</li>
+	<li>
+		<h3>A note about PrivateLinks</h3>
+		<p>
+			If you are going to use a privateLink to share your records with the world. Make sure you are limiting your views records to just 	
+			the ones you want your viewers to see. <b>Using the "param" attribute in your ZCML script tag to limit the viewing of sensitive 		
+			records DOESN'T CUT IT!</b> Any savvy data sniffer can take a look at your source code and just remove the params. If need be, 
+			duplicate your view in Zoho Creator, then change the criteria on your view in Zoho Creator to limit the records.
+		</p>
+	</li>
+</ol>
+<h2>Downloads</h2>
+<h3><a href="http://github.com/downloads/srhyne/ZCML/zcml.html">zcml.html -Sample use</a></h3>
+<h3><a href="http://github.com/downloads/srhyne/ZCML/zcml.js">zcml.js <--use on your html pages to render ZCML></a></h3>
+</div>
+
+
+
+
+
+
+
+	
