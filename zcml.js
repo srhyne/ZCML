@@ -62,38 +62,42 @@
 				appLinkName = $this.attr("appLinkName"),
 				viewLinkName = $this.attr("viewLinkName"),
 				privateLink = $this.attr("privateLink"),
-				params = $this.attr("params");
+				params = $this.attr("params"),
+				url;
 			if(!sharedBy){
 				alert("Missing 'sharedBy' attribute on "+id+" script. Example : <script type=\"text/html\" shareBy=\"zoho.adminuser\">");
 			}	
 			if(!appLinkName){
 				alert("Missing 'appLinkName' attribute on "+id+" script. Example: <script type=\"text/html\" appLinkName=\"zoho.appname\">");
 			}
-			var url = base+sharedBy+"/"+appLinkName+"/json/"+viewLinkName+"/";
+			
+			url = base+sharedBy+"/"+appLinkName+"/json/"+viewLinkName+"/";
 			url += privateLink?privateLink+"/":"";
 			url += params?params+"&callback=?":"callback=?";
 			//get JSONP from ZC
 			$.getJSON(url,function(data){
-				//a single loop to access the first child with unkown name
+				//a single loop to access the first child with unknown name
 				for(var r in data){
 				//loop through records in array	
 					var records = data[r],
 						l = records.length,
 						html = "",
-						tmpl_id = id;	
+						tmpl_id = id,
+						$html;	
 					records.reverse;
 					while(l--){
 						//use template to update htlm
 						html += tmpl(tmpl_id,records[l]);
 					}
 					//create $ obj of html string
-					var $html = $(html);
+					$html = $(html);
 					//replace template with live html
 					$this.replaceWith($html);
 				}//end of for
 			});//end of getJSON
 		});//end of each		
 	};//end of function
+	
 	//on ready init
 	$(function(){
 		$("script[elName='zc-component']").zohoView();
