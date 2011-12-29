@@ -47,55 +47,75 @@
 })();
 
 (function($){
+	
+	var base;
+	
+	base = "http://creator.zoho.com/"
+	
+	function callback(_this, data, id){
+		var records, l, html, $html;
+		
+		
+		//a single loop to access the first child with unknown form name
+		for(var r in data){
+		//loop through records in array	
+			records = data[r];
+			l = records.length;
+			html = "";
+			records.reverse;
+			
+			while(l--){
+				//use template to update htlm
+				html += tmpl(id, records[l]);
+			}
+			//create $ obj of html string
+			$html = $(html);
+			//replace template with live html
+			_this.replaceWith($html);
+		}//end of for
+		
+		
+	}
+	
+	function convert(){ 
+		var id, _this, sharedBy, appLinkName, viewLinkName, privateLink, params, url;
+		//id of template
+		id = this.id;
+		//make url
+		_this = $(this);
+		sharedBy = _this.attr("sharedBy");
+		appLinkName = _this.attr("appLinkName");
+		viewLinkName = _this.attr("viewLinkName");
+		privateLink = _this.attr("privateLink");
+		params = _this.attr("params");
+		
+		
+		if(!sharedBy){
+			return alert("Missing 'sharedBy' attribute on "+id+" script. Example : <script type=\"text/html\" shareBy=\"zoho.adminuser\">");
+		}	
+		if(!appLinkName){
+			return alert("Missing 'appLinkName' attribute on "+id+" script. Example: <script type=\"text/html\" appLinkName=\"zoho.appname\">");
+		}
+		
+		
+		url = base+sharedBy+"/"+appLinkName+"/json/"+viewLinkName+"/";
+		url += privateLink?privateLink+"/":"";
+		url += params?params+"&callback=?":"callback=?";
+		
+		//get JSONP from ZC
+		$.getJSON(url,function(json){
+			callback(_this, json, id)
+		});//end of getJSON
+		
+	}
+	
 	//extend $ prototype
 	$.fn.zohoView = function(){
 		//store instance
-		var self = this,
-			base = "http://creator.zoho.com/";
+		var self = this;
+		
 		//loop through all view scripts
-		self.each(function(){
-			//id of template
-			var id = this.id,
-			//make url
-				$this = $(this),
-				sharedBy = $this.attr("sharedBy"),
-				appLinkName = $this.attr("appLinkName"),
-				viewLinkName = $this.attr("viewLinkName"),
-				privateLink = $this.attr("privateLink"),
-				params = $this.attr("params"),
-				url;
-			if(!sharedBy){
-				alert("Missing 'sharedBy' attribute on "+id+" script. Example : <script type=\"text/html\" shareBy=\"zoho.adminuser\">");
-			}	
-			if(!appLinkName){
-				alert("Missing 'appLinkName' attribute on "+id+" script. Example: <script type=\"text/html\" appLinkName=\"zoho.appname\">");
-			}
-			
-			url = base+sharedBy+"/"+appLinkName+"/json/"+viewLinkName+"/";
-			url += privateLink?privateLink+"/":"";
-			url += params?params+"&callback=?":"callback=?";
-			//get JSONP from ZC
-			$.getJSON(url,function(data){
-				//a single loop to access the first child with unknown name
-				for(var r in data){
-				//loop through records in array	
-					var records = data[r],
-						l = records.length,
-						html = "",
-						tmpl_id = id,
-						$html;	
-					records.reverse;
-					while(l--){
-						//use template to update htlm
-						html += tmpl(tmpl_id,records[l]);
-					}
-					//create $ obj of html string
-					$html = $(html);
-					//replace template with live html
-					$this.replaceWith($html);
-				}//end of for
-			});//end of getJSON
-		});//end of each		
+		self.each(convert);//end of each		
 	};//end of function
 	
 	//on ready init

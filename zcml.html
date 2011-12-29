@@ -17,8 +17,8 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>ZCML Sample</title>
 	<!-- jquery CDN -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
-	</script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+	
 	<!-- zcml engine -->
 	<script src="zcml.js" type="text/javascript" charset="utf-8"></script>
 	<style type="text/css" media="screen">
@@ -60,9 +60,10 @@
 				<th>Version</th>
 			</tr>
 		</thead>
-		<script type="text/html" elName="zc-component" id="firmwares" viewLinkName="firmware_list" params="" appLinkName="sputnik" 
-		sharedBy="sputnikwifi"
-		privateLink="hfnjhD5N1RsSNyMmfB4CSVxgkD8gx3aOwyeN2St43uSt6zSfpXPt8VU52s8w8K8huXkTrX1JCaqtFPgWOYADrBNyy6F2UbYZUu56">
+		
+		<script type="text/zcml" elName="zc-component" id="firmwares" viewLinkName="firmware_list" params="" 
+			appLinkName="sputnik" sharedBy="sputnikwifi" adminuser="sputnik" 
+			privateLink="hfnjhD5N1RsSNyMmfB4CSVxgkD8gx3aOwyeN2St43uSt6zSfpXPt8VU52s8w8K8huXkTrX1JCaqtFPgWOYADrBNyy6F2UbYZUu56">
 			<tr>
 				<td><a href="<%=download%>">Download</a></td>
 				<%if(!requires_ddwrt_activate)
@@ -82,6 +83,7 @@
 				<td><%=version%></td>				
 			</tr>
 		</script>
+		
 	</table>
 </body>
 
