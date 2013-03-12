@@ -69,6 +69,8 @@
 			records.reverse;
 			
 			while(l--){
+				records[l]['subform.name'] = 'testing';
+				normalizeSubFormKeys(records[l])
 				//use template to update htlm
 				html += tmpl(id, records[l]);
 			}
@@ -78,6 +80,28 @@
 			_this.replaceWith($html);
 		}//end of for
 			
+	}
+
+	/**
+	 * add safe keys for subform values.
+	 *
+	 * Attaches record['subform.name'] to record.subform_name
+	 * this way the zcml template can use <%=subform_name%> without
+	 * throwing an exception. 
+	 *
+	 * @param  Object zoho json record
+	 * @return undefined 
+	 */
+	function normalizeSubFormKeys ( record ) {
+		var _r;
+
+		for(var r in record){
+			if( r.indexOf('.') !== -1 ){
+				_r = r.replace('.', '_');
+				record[_r] = record[r];
+			}
+		}
+
 	}
 
 	/**
