@@ -1,12 +1,4 @@
 /*
- ________   ____              __        
-/\_____  \ /\  _`\    /'\_/`\/\ \       
-\/____//'/'\ \ \/\_\ /\      \ \ \      
-     //'/'  \ \ \/_/_\ \ \__\ \ \ \  __ 
-    //'/'___ \ \ \L\ \\ \ \_/\ \ \ \L\ \
-    /\_______\\ \____/ \ \_\\ \_\ \____/
-    \/_______/ \/___/   \/_/ \/_/\/___/ 
-                                        
 @author Stephen Rhyne  Note:(Micro Templating by John Resig)
 @twitter srhyne
 @email stephen@stephenrhyne.com
@@ -47,11 +39,23 @@
 })();
 
 (function($){
-	
-	var base;
-	
-	base = "http://creator.zoho.com/"
-	
+
+	/**
+	 * base url will get the following params added to it.. 
+	 * &sharedBy=<zoho.adminuser>
+	 * &appLinkName=<zoho.appname>
+	 * &viewLinkName=<the_real_view_name>
+	 * &privatelink=<private link to your view>
+	 */
+	var base = 'https://creatorexport.zoho.com/showJson.do?fileType=json'
+
+	/**
+	 * convert a zcml markup script into a json request
+	 * @param  jQuery instance the zcml script view being converted into live markup
+	 * @param  Object  the json returned from the Zoho API
+	 * @param  String id of the zcml view used as a template for each record object
+	 * @return undefined
+	 */
 	function callback(_this, data, id){
 		var records, l, html, $html;
 		
@@ -73,49 +77,89 @@
 			//replace template with live html
 			_this.replaceWith($html);
 		}//end of for
-		
-		
+			
 	}
+
+	/**
+	 * validate the presense of the required params
+	 * @param  Object params attributes bucket that converts into the request params
+	 * @return Bool true of needed params exists. 
+	 */
+	function validateParams( params ){
+
+		if(!params.sharedBy){
+			alert("Missing 'sharedBy' attribute on script. Example : <script type=\"text/html\" sharedBy=\"zoho.adminuser\">");
+			return false;
+		}
 	
-	function convert(){ 
-		var id, _this, sharedBy, appLinkName, viewLinkName, privateLink, params, url;
-		//id of template
-		id = this.id;
-		//make url
-		_this = $(this);
-		sharedBy = _this.attr("sharedBy");
-		appLinkName = _this.attr("appLinkName");
-		viewLinkName = _this.attr("viewLinkName");
-		privateLink = _this.attr("privateLink");
-		params = _this.attr("params");
-		
-		
-		if(!sharedBy){
-			return alert("Missing 'sharedBy' attribute on "+id+" script. Example : <script type=\"text/html\" shareBy=\"zoho.adminuser\">");
-		}	
-		if(!appLinkName){
-			return alert("Missing 'appLinkName' attribute on "+id+" script. Example: <script type=\"text/html\" appLinkName=\"zoho.appname\">");
+		if(!params.appLinkName){
+			alert("Missing 'appLinkName' attribute on script. Example: <script type=\"text/html\" appLinkName=\"zoho.appname\">");
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * parse the zcml script view into a string of request params
+	 * 
+	 * @param  jQuery instance the zcml view
+	 * @return String formatted request params
+	 */
+	function getParams ( view ){
+		var params, keys;
+
+		params = {};
+		keys = ['sharedBy', 'appLinkName', 'viewLinkName', 'privatelink'];
+		$.each(keys, function(i, k){
+			params[k] = view.attr(k);
+		});
+
+		if( !validateParams(params) ){
+			return false;
 		}
 		
-		
-		url = base+sharedBy+"/"+appLinkName+"/json/"+viewLinkName+"/";
-		url += privateLink?privateLink+"/":"";
-		url += params?params+"&callback=?":"callback=?";
-		
+		params = $.param(params);
+
+		viewParams = view.attr('params');
+		if(viewParams){
+			params += ("&" + viewParams)
+		}
+
+		params += "&callback=?";
+
+		return params;
+	}
+	
+	/**
+	 * compile the request params from a given html view,
+	 * make the json request, then fire the templating process
+	 * @return undefined
+	 */
+	function convert(){
+		var id, _this, params, url;
+
+		id = this.id;
+		_this = $(this);
+		params = getParams(_this);
+
+		if(!params){
+			return false;
+		}
+
+		url = base + '&' + params;
+
 		//get JSONP from ZC
 		$.getJSON(url,function(json){
 			callback(_this, json, id)
 		});//end of getJSON
-		
+
 	}
-	
+
 	//extend $ prototype
 	$.fn.zohoView = function(){
-		//store instance
-		var self = this;
-		
 		//loop through all view scripts
-		self.each(convert);//end of each		
+		this.each(convert);//end of each		
 	};//end of function
 	
 	//on ready init
