@@ -69,7 +69,6 @@
 			records.reverse;
 			
 			while(l--){
-				records[l]['subform.name'] = 'testing';
 				normalizeSubFormKeys(records[l])
 				//use template to update htlm
 				html += tmpl(id, records[l]);
